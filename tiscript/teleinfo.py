@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import logging
-logging.basicConfig(filename='/home/pi/flask_projects/tiscript/log/teleinfo.log',level=logging.DEBUG)
+logging.basicConfig(filename='/home/pi/teleinfo/tiscript/log/teleinfo.log',level=logging.DEBUG)
 logging.info('Started')
 import os
 #basedir = os.path.abspath(os.path.dirname(__file__))
-api = '/home/pi/flask_projects/first_app/'
+api = '/home/pi/teleinfo/teleinfoapp/'
 import datetime
 import serial
 import string
