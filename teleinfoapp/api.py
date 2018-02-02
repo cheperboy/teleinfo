@@ -19,9 +19,9 @@ def createti(timestamp, base, papp, iinst1, iinst2, iinst3):
     try:
         db.session.add(teleinfo)
         db.session.commit()
-        ret = 'OK'
+        ret = True
     except exc.SQLAlchemyError as e:
-        ret = 'Not Ok'
+        ret = False
     return ret
 
 #print createti(datetime.now(), 3, 2, 2, 2, 3)
