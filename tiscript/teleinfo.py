@@ -8,9 +8,10 @@ BAUDRATE = 1200
 STOPBITS = serial.STOPBITS_ONE
 BYTESIZE = serial.SEVENBITS
 
-logfile_base = '/home/pi/teleinfo/tiscript/log/teleinfo.py'
 
-api = '/home/pi/teleinfo/teleinfoapp/'
+logfile_base = '/home/pi/Development/teleinfo/tiscript/log/teleinfo.py'
+
+api = '/home/pi/Development/teleinfo/teleinfoapp/'
 sys.path.append(api)
 from api import createti
 '''

@@ -1,6 +1,10 @@
 import os
 from flask_appbuilder.security.manager import AUTH_OID, AUTH_REMOTE_USER, AUTH_DB, AUTH_LDAP, AUTH_OAUTH
-basedir = os.path.abspath(os.path.dirname(__file__))
+
+basedir = os.path.abspath(os.path.dirname(__file__))    # /home/pi/Development/teleinfo/teleinfoapp
+pdir = os.path.dirname(basedir)                         # /home/pi/Development/teleinfo
+parentdir = os.path.dirname(pdir)                       # /home/pi/Development
+envname = os.path.basename(parentdir)                   # Development
 
 # Your App secret key
 SECRET_KEY = '\2\1thisismyscretkey\1\2\e\y\y\h'
@@ -8,9 +12,9 @@ SECRET_KEY = '\2\1thisismyscretkey\1\2\e\y\y\h'
 # The SQLAlchemy connection string.
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 SQLALCHEMY_BINDS = {
-    'teleinfo': 'sqlite:///' + os.path.join(basedir, 'teleinfo.db'),
-    'teleinfo_minute': 'sqlite:///' + os.path.join(basedir, 'db/teleinfo_minute.db'),
-    'teleinfo_hour': 'sqlite:///' + os.path.join(basedir, 'db/teleinfo_hour.db')
+    'teleinfo': 'sqlite:///' + os.path.join(pdir, 'db/teleinfo.db'),
+    'teleinfo_minute': 'sqlite:///' + os.path.join(pdir, 'db/teleinfo_minute.db'),
+    'teleinfo_hour': 'sqlite:///' + os.path.join(pdir, 'db/teleinfo_hour.db')
 }
 
 # Flask-WTF flag for CSRF
@@ -20,7 +24,15 @@ CSRF_ENABLED = True
 # GLOBALS FOR APP Builder 
 #------------------------------
 # Uncomment to setup Your App name
-APP_NAME = "Teleinfo"
+
+if envname == 'Production':
+    APP_NAME = "Teleinfo Prod"
+
+elif envname == 'Development':
+    APP_NAME = "Teleinfo Dev"
+
+else:
+    APP_NAME = "/!\ Teleinfo ? "+envname
 
 # Uncomment to setup Setup an App icon
 #APP_ICON = "static/img/logo.jpg"
