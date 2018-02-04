@@ -8,10 +8,15 @@ BAUDRATE = 1200
 STOPBITS = serial.STOPBITS_ONE
 BYTESIZE = serial.SEVENBITS
 
+currentpath = os.path.abspath(os.path.dirname(__file__)) # /home/pi/Development/teleinfo/tiscript
+projectpath = os.path.dirname(currentpath)               # /home/pi/Development/teleinfo
+envpath = os.path.dirname(projectpath)                   # /home/pi/Development
+envname = os.path.basename(envpath)                      # Development
 
-logfile_base = '/home/pi/Development/teleinfo/tiscript/log/teleinfo.py'
+#logfile_base = '/home/pi/Development/teleinfo/tiscript/log/teleinfo.py'
+logfile_base = projectpath + '/log/tiscript'
 
-api = '/home/pi/Development/teleinfo/teleinfoapp/'
+api = projectpath + '/teleinfoapp/'
 sys.path.append(api)
 from api import createti
 '''

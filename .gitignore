@@ -1,5 +1,5 @@
-db
 *.log
+*.log.*
 *.db
 *.pyc
 app.db
