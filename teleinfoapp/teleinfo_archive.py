@@ -1,7 +1,20 @@
+import os, sys, argparse
+import logging, logging.config
+
 from app import db
 from app.models import Teleinfo, TeleinfoMinute, TeleinfoHour
 from datetime import datetime, timedelta
 from app.models_util import TIHour, TIMinute, TI
+
+currentpath = os.path.abspath(os.path.dirname(__file__)) # /home/pi/Development/teleinfo/teleinfoapp
+projectpath = os.path.dirname(currentpath)               # /home/pi/Development/teleinfo
+envpath = os.path.dirname(projectpath)                   # /home/pi/Development
+envname = os.path.basename(envpath)                      # Development
+
+#logfile_base = '/home/pi/Development/teleinfo/tiscript/log/teleinfo.py'
+logfile_base = projectpath + '/log/tiarchive'
+
+
 
 #run every hour
 def process_archive_hour():
@@ -129,4 +142,82 @@ def record_minute(begin):
         ret = TIMinute.create(begin, base, papp, iinst1, iinst2, iinst3)
         print "\t\t\t"+str(ret)
 
-#print process_archive_minute()
+
+if __name__ == '__main__':
+    
+    # PARSE ARGS
+    parser = argparse.ArgumentParser(description = "Rpi gets teleinfo from EDF serial output", epilog = "" )
+    parser.add_argument("-v",
+                          "--verbose",
+                          help="increase output verbosity",
+                          action="store_true")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--archive_hour", action="store_true")
+    group.add_argument("--archive_minute", action="store_true")
+    args = parser.parse_args()
+
+    if args.verbose:
+        loglevel = logging.DEBUG
+    else:
+        loglevel = logging.CRITICAL
+    
+    # SET LOGGER
+    logger = logging.getLogger(__name__)
+    logging.config.dictConfig({
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "simple": {
+                "format": "%(asctime)s | %(name)s | %(filename)s | %(funcName)s | %(levelname)s | %(message)s"
+            }
+        },
+
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "level": loglevel,
+                "formatter": "simple",
+                "stream": "ext://sys.stdout"
+            },
+
+            "info_file_handler": {
+                "class": "logging.handlers.RotatingFileHandler",
+                "level": "INFO",
+                "formatter": "simple",
+                "filename": logfile_base + "_info.log",
+                "maxBytes": 100000,
+                "backupCount": 3,
+                "encoding": "utf8"
+            },
+
+            "error_file_handler": {
+                "class": "logging.handlers.RotatingFileHandler",
+                "level": "ERROR",
+                "formatter": "simple",
+                "filename": logfile_base + "_errors.log",
+                "maxBytes": 100000,
+                "backupCount": 3,
+                "encoding": "utf8"
+            }
+        },
+
+        "loggers": {
+            "my_module": {
+                "level": "ERROR",
+                "handlers": ["console"],
+                "propagate": "no"
+            }
+        },
+
+        "root": {
+            "level": "INFO",
+            "handlers": ["console", "info_file_handler", "error_file_handler"]
+        }
+    })
+
+    if args.archive_minute:
+        process_archive_minute()
+    if args.archive_hour:
+        process_archive_minute()
+        process_archive_hour()
+    
