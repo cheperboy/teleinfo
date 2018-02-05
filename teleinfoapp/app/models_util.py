@@ -17,13 +17,18 @@ class TICommon():
             db.session.add(objet)
             db.session.commit()
             ret = 'OK'
-        except exc.SQLAlchemyError as e:
+#        except exc.SQLAlchemyError as e:
+        except Exception as e:
             ret = 'Not Ok'
         return ret
 
     @classmethod
     def get_last(self, cls):
         return(db.session.query(cls).order_by(cls.id.desc()).first())
+
+    @classmethod
+    def get_first(self, cls):
+        return(db.session.query(cls).order_by(cls.id.asc()).first())
 
     @classmethod
     def get_between_date(self, cls, begin, end):
@@ -45,6 +50,10 @@ class TIMinute():
         return(TICommon().get_last(TeleinfoMinute))
 
     @classmethod
+    def get_first(self):
+        return(TICommon().get_first(TeleinfoMinute))
+
+    @classmethod
     def get_between_date(self, begin, end):
         return(TICommon().get_between_date(TeleinfoMinute, begin, end))
     
@@ -59,6 +68,10 @@ class TIHour():
         return(TICommon().get_last(TeleinfoHour))
 
     @classmethod
+    def get_first(self):
+        return(TICommon().get_first(TeleinfoHour))
+
+    @classmethod
     def get_between_date(self, begin, end):
         return(TICommon().get_between_date(TeleinfoHour, begin, end))
     
@@ -71,6 +84,10 @@ class TI():
     @classmethod
     def get_last(self):
         return(TICommon().get_last(Teleinfo))
+
+    @classmethod
+    def get_first(self):
+        return(TICommon().get_first(Teleinfo))
 
     @classmethod
     def get_between_date(self, begin, end):
