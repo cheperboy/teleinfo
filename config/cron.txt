@@ -1,0 +1,2 @@
+# |-- Archive minute / hour every 10 minutes ------
+*/10 * * * * /home/pi/Envs/fab/bin/python /home/pi/Development/teleinfo/teleinfoapp/teleinfo_archive.py --archive_hour 2>&1
