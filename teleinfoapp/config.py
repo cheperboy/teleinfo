@@ -11,11 +11,11 @@ envname = os.path.basename(envpath)                      # Development
 SECRET_KEY = '\2\1thisismyscretkey\1\2\e\y\y\h'
 
 # The SQLAlchemy connection string.
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(currentpath, 'app.db')
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(envpath, 'db/app.db')
 SQLALCHEMY_BINDS = {
-    'teleinfo': 'sqlite:///' + os.path.join(projectpath, 'db/teleinfo.db'),
-    'teleinfo_minute': 'sqlite:///' + os.path.join(projectpath, 'db/teleinfo_minute.db'),
-    'teleinfo_hour': 'sqlite:///' + os.path.join(projectpath, 'db/teleinfo_hour.db')
+    'teleinfo': 'sqlite:///' + os.path.join(envpath, 'db/teleinfo.db'),
+    'teleinfo_minute': 'sqlite:///' + os.path.join(envpath, 'db/teleinfo_minute.db'),
+    'teleinfo_hour': 'sqlite:///' + os.path.join(envpath, 'db/teleinfo_hour.db')
 }
 
 # Flask-WTF flag for CSRF

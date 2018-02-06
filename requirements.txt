@@ -1,3 +1,4 @@
 Flask==0.12.2
 Flask-AppBuilder==1.9.6
 pySerial
+gunicorn
