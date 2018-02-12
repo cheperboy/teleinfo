@@ -1,3 +1,18 @@
+"""
+class TeleinfoPuissanceChartView15M(DirectByChartView):
+    datamodel = SQLAInterface(Teleinfo)
+    chart_title = 'Puissance'
+    chart_type = 'LineChart'
+    date = datetime.now() - timedelta(minutes=15)
+    base_filters = [['timestamp', FilterGreater, date]]
+    definitions = [
+    {
+        'group': 'timestamp',
+        'formatter': pretty_hour,
+        'series': ['papp']
+    }    
+]
+"""
 from app import db
 from app.models import Teleinfo, TeleinfoMinute, TeleinfoHour
 from datetime import datetime, timedelta

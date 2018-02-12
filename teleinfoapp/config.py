@@ -17,6 +17,7 @@ SQLALCHEMY_BINDS = {
     'teleinfo_minute': 'sqlite:///' + os.path.join(envpath, 'db/teleinfo_minute.db'),
     'teleinfo_hour': 'sqlite:///' + os.path.join(envpath, 'db/teleinfo_hour.db')
 }
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Flask-WTF flag for CSRF
 CSRF_ENABLED = True
@@ -108,12 +109,12 @@ IMG_UPLOAD_URL = '/static/uploads/'
 #APP_THEME = "cerulean.css"
 #APP_THEME = "amelia.css"
 #APP_THEME = "cosmo.css"
-#APP_THEME = "cyborg.css"  
+#APP_THEME = "cyborg.css"  # dark 
 #APP_THEME = "flatly.css"
 #APP_THEME = "journal.css"
 #APP_THEME = "readable.css"
 #APP_THEME = "simplex.css"
-#APP_THEME = "slate.css"   
+#APP_THEME = "slate.css"   # dark
 #APP_THEME = "spacelab.css"
 #APP_THEME = "united.css"
 #APP_THEME = "yeti.css"

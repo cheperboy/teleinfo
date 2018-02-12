@@ -1,10 +1,13 @@
-from flask import render_template
+from flask import render_template, redirect, url_for
 from flask_appbuilder import ModelView, AppBuilder, expose, BaseView, has_access
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_appbuilder.charts.views import DirectByChartView
 from app import db, appbuilder
 from .models import Teleinfo, TeleinfoMinute, TeleinfoHour
 from datetime import datetime, timedelta
+
+from app_util import get_url2
+
 
 def pretty_hour(value):
     return value.strftime("%H:%M")
@@ -64,9 +67,114 @@ class TeleinfoCustomView(BaseView):
         ti= db.session.query(Teleinfo).filter(Teleinfo.iinst1 > 19).count()
         ti= db.session.query(Teleinfo).filter(Teleinfo.iinst1 > -1).order_by(Teleinfo.id.asc()).first()
         param1 = str(ti)
-        
-        return self.render_template('method3.html',
-							   param1 = param1)
+        return self.render_template('method3.html', param1 = param1)
+
+class MenuPhase(BaseView):
+    route_base = "/menuphase"
+    """
+    @expose('/red/')
+    def red(self):
+        #return redirect(url_for('MyView.red'))
+        #return redirect('myview/red')
+        return "hello"
+
+    """
+    @expose('/15min/')
+    def phase15min(self):
+        return redirect(get_url(15, 'teleinfophaseschartview'))
+
+    @expose('/1h/')
+    def phase1h(self):
+        return redirect(get_url(60, 'teleinfominutephaseschartview'))
+
+    @expose('/12h/')
+    def phase12h(self):
+        return redirect(get_url(720, 'teleinfohourphaseschartview'))
+
+    @expose('/24h/')
+    def phase24h(self):
+        return redirect(get_url(1440, 'teleinfohourphaseschartview'))
+
+    @expose('/1sem/')
+    def phase1sem(self):
+        return redirect(get_url(10080, 'teleinfohourphaseschartview'))
+
+""" Menu Chart Phase """
+appbuilder.add_view_no_menu(MenuPhase)
+appbuilder.add_link("15 minutes", 
+                    href='/menuphase/15min', 
+                    icon="fa-bar-chart",
+                    category='Phase')
+
+appbuilder.add_link("1 heure", 
+                    href='/menuphase/1h', 
+                    icon="fa-bar-chart",
+                    category='Phase')
+
+appbuilder.add_link("12 heures", 
+                    href='/menuphase/12h', 
+                    icon="fa-bar-chart",
+                    category='Phase')
+
+appbuilder.add_link("24 heures", 
+                    href='/menuphase/24h', 
+                    icon="fa-bar-chart",
+                    category='Phase')
+
+appbuilder.add_link("1 semaine", 
+                    href='/menuphase/1sem', 
+                    icon="fa-bar-chart",
+                    category='Phase')
+
+class MenuPuissance(BaseView):
+    route_base = "/menupuissance"
+
+    @expose('/15min/')
+    def puissance15min(self):
+        return redirect(get_url(15, 'teleinfopuissanceschartview'))
+
+    @expose('/1h/')
+    def puissance1h(self):
+        return redirect(get_url(60, 'teleinfominutepuissanceschartview'))
+
+    @expose('/12h/')
+    def puissance12h(self):
+        return redirect(get_url(720, 'teleinfohourpuissanceschartview'))
+
+    @expose('/24h/')
+    def puissance24h(self):
+        return redirect(get_url(1440, 'teleinfohourpuissanceschartview'))
+
+    @expose('/1sem/')
+    def puissance1sem(self):
+        return redirect(get_url(10080, 'teleinfohourpuissanceschartview'))
+
+""" Menu Chart puissance """
+appbuilder.add_view_no_menu(MenuPuissance)
+appbuilder.add_link("15 minutes", 
+                    href='/menuphase/15min', 
+                    icon="fa-bar-chart",
+                    category='Puissance')
+
+appbuilder.add_link("1 heure", 
+                    href='/menuphase/1h', 
+                    icon="fa-bar-chart",
+                    category='Puissance')
+
+appbuilder.add_link("12 heures", 
+                    href='/menuphase/12h', 
+                    icon="fa-bar-chart",
+                    category='Puissance')
+
+appbuilder.add_link("24 heures", 
+                    href='/menuphase/24h', 
+                    icon="fa-bar-chart",
+                    category='Puissance')
+
+appbuilder.add_link("1 semaine", 
+                    href='/menuphase/1sem', 
+                    icon="fa-bar-chart",
+                    category='Puissance')
 
 
 """
@@ -189,64 +297,24 @@ class TeleinfoHourTotalChartView(DirectByChartView):
     }
 ]
 
-""" Menu Conso EDF """
-#appbuilder.add_view(TeleinfoCustomView, "test", category='Teleinfo')
-appbuilder.add_view(TeleinfoPhasesChartView, "Phases sec", icon="fa-bar-chart", category="Conso EDF")
-appbuilder.add_view(TeleinfoMinutePhasesChartView, "Phases minute", icon="fa-bar-chart", category="Conso EDF")
-appbuilder.add_view(TeleinfoHourPhasesChartView, "Phases heure", icon="fa-bar-chart", category="Conso EDF")
-appbuilder.add_view(TeleinfoPuissanceChartView, "Puissance sec", icon="fa-bar-chart", category="Conso EDF")
-appbuilder.add_view(TeleinfoMinutePuissanceChartView, "Puissance heure", icon="fa-bar-chart", category="Conso EDF")
-appbuilder.add_view(TeleinfoHourPuissanceChartView, "Puissance heure", icon="fa-bar-chart", category="Conso EDF")
-appbuilder.add_view(TeleinfoTotalChartView, "Total sec", icon="fa-bar-chart", category="Conso EDF")
-appbuilder.add_view(TeleinfoHourTotalChartView, "Total heure", icon="fa-bar-chart", category="Conso EDF")
+""" TESTING 
+appbuilder.add_view(TeleinfoCustomView, "test", category='Teleinfo')
+"""
+
+""" Register Views without menu """
+appbuilder.add_view_no_menu(TeleinfoPhasesChartView)
+appbuilder.add_view_no_menu(TeleinfoMinutePhasesChartView)
+appbuilder.add_view_no_menu(TeleinfoHourPhasesChartView)
+appbuilder.add_view_no_menu(TeleinfoPuissanceChartView)
+appbuilder.add_view_no_menu(TeleinfoMinutePuissanceChartView)
+appbuilder.add_view_no_menu(TeleinfoHourPuissanceChartView)
+appbuilder.add_view_no_menu(TeleinfoTotalChartView)
+appbuilder.add_view_no_menu(TeleinfoHourTotalChartView)
 
 """ Menu Admin Table """
 appbuilder.add_view(TeleinfoModelView, "Teleinfo", icon = "fa-table", category = "Admin Teleinfo")
 appbuilder.add_view(TeleinfoMinuteModelView, "TeleinfoMinute", icon = "fa-table", category = "Admin Teleinfo")
 appbuilder.add_view(TeleinfoHourModelView, "TeleinfoHour", icon = "fa-table", category = "Admin Teleinfo")
-
-""" Menu Chart Phase """
-appbuilder.add_link("15 minutes", 
-                    href=get_url(15, 'teleinfophaseschartview'), 
-                    icon="fa-bar-chart",
-                    category='Phase')
-
-appbuilder.add_link("1 heure", 
-                    href=get_url(60, 'teleinfominutephaseschartview'), 
-                    icon="fa-bar-chart",
-                    category='Phase')
-
-appbuilder.add_link("12 heures", 
-                    href=get_url(720, 'teleinfohourphaseschartview'), 
-                    icon="fa-bar-chart",
-                    category='Phase')
-
-appbuilder.add_link("24 heures", 
-                    href=get_url(1440, 'teleinfohourphaseschartview'), 
-                    icon="fa-bar-chart",
-                    category='Phase')
-
-""" Menu Chart Puissance """
-appbuilder.add_link("15 minutes", 
-                    href=get_url(15, 'teleinfopuissancechartview'), 
-                    icon="fa-bar-chart",
-                    category='Puissances')
-
-appbuilder.add_link("1 heure", 
-                    href=get_url(60, 'teleinfominutepuissancechartview'), 
-                    icon="fa-bar-chart",
-                    category='Puissances')
-
-appbuilder.add_link("12 heures", 
-                    href=get_url(720, 'teleinfohourpuissancechartview'), 
-                    icon="fa-bar-chart",
-                    category='Puissances')
-
-appbuilder.add_link("24 heures", 
-                    href=get_url(1440, 'teleinfohourpuissancechartview'), 
-                    icon="fa-bar-chart",
-                    category='Puissances')
-
 
 
 
@@ -258,3 +326,5 @@ def page_not_found(e):
     return render_template('404.html', base_template=appbuilder.base_template, appbuilder=appbuilder), 404
 
 db.create_all()
+appbuilder.security_cleanup()
+
