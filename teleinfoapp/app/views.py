@@ -326,5 +326,5 @@ def page_not_found(e):
     return render_template('404.html', base_template=appbuilder.base_template, appbuilder=appbuilder), 404
 
 db.create_all()
-appbuilder.security_cleanup()
+#appbuilder.security_cleanup()
 
