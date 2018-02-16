@@ -131,48 +131,48 @@ class MenuPuissance(BaseView):
 
     @expose('/15min/')
     def puissance15min(self):
-        return redirect(get_url(15, 'teleinfopuissanceschartview'))
+        return redirect(get_url(15, 'teleinfopuissancechartview'))
 
     @expose('/1h/')
     def puissance1h(self):
-        return redirect(get_url(60, 'teleinfominutepuissanceschartview'))
+        return redirect(get_url(60, 'teleinfominutepuissancechartview'))
 
     @expose('/12h/')
     def puissance12h(self):
-        return redirect(get_url(720, 'teleinfohourpuissanceschartview'))
+        return redirect(get_url(720, 'teleinfohourpuissancechartview'))
 
     @expose('/24h/')
     def puissance24h(self):
-        return redirect(get_url(1440, 'teleinfohourpuissanceschartview'))
+        return redirect(get_url(1440, 'teleinfohourpuissancechartview'))
 
     @expose('/1sem/')
     def puissance1sem(self):
-        return redirect(get_url(10080, 'teleinfohourpuissanceschartview'))
+        return redirect(get_url(10080, 'teleinfohourpuissancechartview'))
 
 """ Menu Chart puissance """
 appbuilder.add_view_no_menu(MenuPuissance)
 appbuilder.add_link("15 minutes", 
-                    href='/menuphase/15min', 
+                    href='/menupuissance/15min', 
                     icon="fa-bar-chart",
                     category='Puissance')
 
 appbuilder.add_link("1 heure", 
-                    href='/menuphase/1h', 
+                    href='/menupuissance/1h', 
                     icon="fa-bar-chart",
                     category='Puissance')
 
 appbuilder.add_link("12 heures", 
-                    href='/menuphase/12h', 
+                    href='/menupuissance/12h', 
                     icon="fa-bar-chart",
                     category='Puissance')
 
 appbuilder.add_link("24 heures", 
-                    href='/menuphase/24h', 
+                    href='/menupuissance/24h', 
                     icon="fa-bar-chart",
                     category='Puissance')
 
 appbuilder.add_link("1 semaine", 
-                    href='/menuphase/1sem', 
+                    href='/menupuissance/1sem', 
                     icon="fa-bar-chart",
                     category='Puissance')
 
